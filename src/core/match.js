@@ -1,6 +1,5 @@
 import { API } from "../api/api.js";
 import { Helper } from "../utils/helper.js";
-import logger from "../utils/logger.js";
 import twist from "../utils/twist.js";
 
 export class Match extends API {
@@ -25,6 +24,7 @@ export class Match extends API {
           this.token = data.data.token;
           this.user = data.data.user;
           await this.getGameRule();
+          await this.getProducts();
           await this.getProfile();
           resolve();
         })
@@ -215,6 +215,62 @@ export class Match extends API {
               3000,
               this.account,
               `Error Claiming Game - ${data.err}`,
+              this
+            );
+          }
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+  async getProducts() {
+    return new Promise(async (resolve, reject) => {
+      await this.fetch("/api/tgapp/v1/daily/task/status", "GET", this.token)
+        .then(async (data) => {
+          if (data.code == 200) {
+            this.product = data.data;
+          } else {
+            await Helper.sleep(
+              3000,
+              this.account,
+              `Error Getting Purchasable Product - ${data.err}`,
+              this
+            );
+          }
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+  async purchaseProduct(type) {
+    return new Promise(async (resolve, reject) => {
+      const body = {
+        uid: Number(this.account.id),
+        type: type,
+      };
+      await this.fetch(
+        "/api/tgapp/v1/daily/task/purchase",
+        "POST",
+        this.token,
+        body
+      )
+        .then(async (data) => {
+          if (data.code == 200) {
+            await Helper.sleep(
+              3000,
+              this.account,
+              `Sucessfully buy Product type ${type}`,
+              this
+            );
+          } else {
+            await Helper.sleep(
+              3000,
+              this.account,
+              `Failed to buy Product - ${data.msg}`,
               this
             );
           }

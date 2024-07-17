@@ -11,6 +11,33 @@ async function operation(user, query, queryObj) {
     twist.log(`Getting User Info`, user, match);
     await match.login();
     await Helper.sleep(1000, user, `Successfully Get User Info`, this);
+
+    let miningBoostProduct;
+    let gameChanceProduct;
+    if (match.product.length > 0) {
+      miningBoostProduct = match.product.filter((item) =>
+        item.name.includes("Daily Booster")
+      );
+      if (miningBoostProduct.length > 0) {
+        if (
+          match.profile.Balance / 1000 > miningBoostProduct[0].point &&
+          gameChanceProduct[0].current_count != gameChanceProduct[0].task_count
+        ) {
+          await match.purchaseProduct(miningBoostProduct[0].type);
+        }
+      }
+      gameChanceProduct = match.product.filter((item) =>
+        item.name.includes("Game Booster")
+      );
+      if (gameChanceProduct.length > 0) {
+        if (
+          match.profile.Balance / 1000 > gameChanceProduct[0].point &&
+          gameChanceProduct[0].current_count != gameChanceProduct[0].task_count
+        ) {
+          await match.purchaseProduct(gameChanceProduct[0].type);
+        }
+      }
+    }
     await match.startFarming();
 
     const farm = setInterval(async () => {
@@ -26,6 +53,14 @@ async function operation(user, query, queryObj) {
 
     while (match.rule.game_count != 0) {
       await match.playGame();
+      if (match.rule.game_count != 0) {
+        await Helper.sleep(
+          5000,
+          user,
+          `Delaying for 5 Sec before playing next game`,
+          match
+        );
+      }
     }
 
     if (mode == 1) {
