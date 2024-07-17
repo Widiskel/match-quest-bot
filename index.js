@@ -12,6 +12,13 @@ async function operation(user, query, queryObj) {
     await match.login();
     await Helper.sleep(1000, user, `Successfully Get User Info`, this);
 
+    await match.getTaskList();
+    for (const task of match.task) {
+      if (task.complete == false) {
+        await match.completeTask(task.name);
+      }
+    }
+
     let miningBoostProduct;
     let gameChanceProduct;
     if (match.product.length > 0) {
@@ -43,13 +50,6 @@ async function operation(user, query, queryObj) {
     const farm = setInterval(async () => {
       await match.checkFarmingReward();
     }, 5000);
-
-    await match.getTaskList();
-    for (const task of match.task) {
-      if (task.complete == false) {
-        await match.completeTask(task.name);
-      }
-    }
 
     while (match.rule.game_count != 0) {
       await match.playGame();
