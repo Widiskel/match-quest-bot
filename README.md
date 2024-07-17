@@ -14,8 +14,7 @@ Match Quest Bot, is Mining game Bot on Telegram.
 - Git
 - Node JS
 - TELEGRAM_APP_ID & TELEGRAM_APP_HASH Get it from [Here](https://my.telegram.org/auth?to=apps)
-- Match Account , Create [Here](https://t.me/tabizoobot/match?startapp=9h2ani) ,join and claim join reward, also don't forget to complete mandatory missions include input tabi address.
-
+- Match Account , Create [Here](https://t.me/MatchQuestBot/start?startapp=548768a34050c1a7ae9332d0fbba3ae1) ,dont forget to join match channel because that missions is incompletable automatically.
 ## Setup & Configure BOT
 
 1. clone project repo `git clone https://github.com/Widiskel/match-mining-bot.git` and cd to project dir `cd match-mining-bot`
