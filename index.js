@@ -28,7 +28,8 @@ async function operation(user, query, queryObj) {
       if (miningBoostProduct.length > 0) {
         if (
           match.profile.Balance / 1000 > miningBoostProduct[0].point &&
-          miningBoostProduct[0].current_count != miningBoostProduct[0].task_count
+          miningBoostProduct[0].current_count !=
+            miningBoostProduct[0].task_count
         ) {
           await match.purchaseProduct(miningBoostProduct[0].type);
         }
@@ -45,11 +46,25 @@ async function operation(user, query, queryObj) {
         }
       }
     }
-    await match.startFarming();
-
+    await match.checkFarmingReward();
     const farm = setInterval(async () => {
       await match.checkFarmingReward();
     }, 5000);
+
+    if (
+      match.reward.next_claim_timestamp - Date.now() <= 0 &&
+      match.reward.reward != 0
+    ) {
+      await match.claimMiningReward();
+    }
+    await match.startFarming();
+
+    await match.getTaskList();
+    for (const task of match.task) {
+      if (task.complete == false) {
+        await match.completeTask(task.name);
+      }
+    }
 
     while (match.rule.game_count != 0) {
       await match.playGame();

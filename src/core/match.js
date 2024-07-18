@@ -315,6 +315,38 @@ export class Match extends API {
         });
     });
   }
+  async claimMiningReward() {
+    twist.log(`Claiming Mining Reward`, this.account, this);
+    return new Promise(async (resolve, reject) => {
+      const body = {
+        uid: Number(this.account.id),
+      };
+      await this.fetch(
+        "/api/tgapp/v1/point/reward/claim",
+        "POST",
+        this.token,
+        body
+      )
+        .then(async (data) => {
+          if (data.code == 200) {
+            await this.getProfile();
+            await Helper.sleep(
+              3000,
+              this.account,
+              `Mining Reward Claimed Successfullt`,
+              this
+            );
+          } else {
+            await this.getProfile();
+            await Helper.sleep(3000, this.account, data.err, this);
+          }
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
   async checkFarmingReward() {
     return new Promise(async (resolve, reject) => {
       const body = {
