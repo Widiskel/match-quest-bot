@@ -6,6 +6,7 @@ Match Quest Bot, is Mining game Bot on Telegram.
 
 - Auto Complete Quest
 - Auto Mining
+- Auto Claim Mining Reward
 - Auto Purchase Benefitable Product
 - Auto Play Game
 
