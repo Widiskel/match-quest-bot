@@ -28,7 +28,7 @@ async function operation(user, query, queryObj) {
       if (miningBoostProduct.length > 0) {
         if (
           match.profile.Balance / 1000 > miningBoostProduct[0].point &&
-          gameChanceProduct[0].current_count != gameChanceProduct[0].task_count
+          miningBoostProduct[0].current_count != miningBoostProduct[0].task_count
         ) {
           await match.purchaseProduct(miningBoostProduct[0].type);
         }
