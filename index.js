@@ -169,13 +169,16 @@ async function startBot() {
     } catch (error) {
       logger.info(`BOT STOPPED`);
       logger.error(JSON.stringify(error));
-      reject(error);
+      await startBot().then(resolve);
     }
   });
 }
 
 let mode = 1;
 let init = false;
+process.on("unhandledRejection", (reason) => {
+  throw Error("Unhandled Rejection : " + reason);
+});
 (async () => {
   try {
     logger.clear();
