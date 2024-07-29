@@ -21,7 +21,7 @@ Match Quest Bot, is Mining game Bot on Telegram.
 1. clone project repo `git clone https://github.com/Widiskel/match-mining-bot.git` and cd to project dir `cd match-mining-bot`
 2. run `npm install`
 3. run `cp src/config/config_tmp.js src/config/config.js`
-   To configure the app, open `src/config.js` and add your telegram app id and hash there
+   To configure the app, open `src/config.js` and add your telegram app id and hash there, also configure the RUN MODE
 4. run `mkdir sessions`
 5. to start the app run `npm run start`
 
