@@ -51,9 +51,10 @@ export class Telegram {
         if (Helper.getSession(this.sessionName)?.length == 0) {
           console.info("You don't have any sessions, please create first");
           await this.onBoarding();
-        } else {
-          await this.runOption();
         }
+        // else {
+        //   await this.runOption();
+        // }
       } else {
         console.error("Invalid input, Please try again");
         await this.onBoarding();

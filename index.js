@@ -117,7 +117,7 @@ async function startBot() {
       if (init == false) {
         await tele.init();
         init = true;
-        mode = tele.runMode;
+        mode = Config.RUNMODE;
       }
       const sessionList = Helper.getSession("sessions");
       const paramList = [];
