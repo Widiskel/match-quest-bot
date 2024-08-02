@@ -25,7 +25,9 @@ export class Match extends API {
           this.user = data.data.user;
           await this.getGameRule();
           await this.getProducts();
-          await this.getProfile();
+          await this.getProfile().catch((err) => {
+            throw err;
+          });
           resolve();
         })
         .catch((err) => {
@@ -138,7 +140,9 @@ export class Match extends API {
               `Successfully Claim Task Reward`,
               this
             );
-            await this.getProfile();
+            await this.getProfile().catch((err) => {
+              throw err;
+            });
           } else {
             await Helper.sleep(
               2000,
@@ -180,7 +184,9 @@ export class Match extends API {
             `Delaying for 30 Second before claiming game..`,
             this
           );
-          await this.claimGame(Helper.random(100, 200));
+          await this.claimGame(Helper.random(100, 200)).catch((err) => {
+            throw err;
+          });
           resolve();
         })
         .catch((err) => {
@@ -202,7 +208,9 @@ export class Match extends API {
     return new Promise(async (resolve, reject) => {
       await this.fetch("/api/tgapp/v1/game/claim", "POST", this.token, body)
         .then(async (data) => {
-          await this.getProfile();
+          await this.getProfile().catch((err) => {
+            throw err;
+          });
           if (data.code == 200) {
             await Helper.sleep(
               3000,
@@ -295,7 +303,9 @@ export class Match extends API {
       )
         .then(async (data) => {
           if (data.code == 200) {
-            await this.getProfile();
+            await this.getProfile().catch((err) => {
+              throw err;
+            });
             await Helper.sleep(
               3000,
               this.account,
@@ -304,7 +314,9 @@ export class Match extends API {
             );
             await this.checkFarmingReward();
           } else {
-            await this.getProfile();
+            await this.getProfile().catch((err) => {
+              throw err;
+            });
             await Helper.sleep(3000, this.account, data.err, this);
             await this.checkFarmingReward();
           }
@@ -329,7 +341,9 @@ export class Match extends API {
       )
         .then(async (data) => {
           if (data.code == 200) {
-            await this.getProfile();
+            await this.getProfile().catch((err) => {
+              throw err;
+            });
             await Helper.sleep(
               3000,
               this.account,
@@ -337,7 +351,9 @@ export class Match extends API {
               this
             );
           } else {
-            await this.getProfile();
+            await this.getProfile().catch((err) => {
+              throw err;
+            });
             await Helper.sleep(3000, this.account, data.err, this);
           }
           resolve();
