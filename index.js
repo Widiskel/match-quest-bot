@@ -8,9 +8,9 @@ import twist from "./src/utils/twist.js";
 async function operation(user, query, queryObj) {
   try {
     const match = new Match(user, query, queryObj);
-    twist.log(`Getting User Info`, user, match);
+    await Helper.sleep(1000, user, `Try To Login`, match);
     await match.login();
-    await Helper.sleep(1000, user, `Successfully Get User Info`, this);
+    await Helper.sleep(1000, user, `Successfully Get User Info`, match);
 
     await match.getTaskList();
     for (const task of match.task) {
@@ -97,6 +97,7 @@ async function operation(user, query, queryObj) {
     }
     clearInterval(farm);
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }
@@ -169,6 +170,7 @@ async function startBot() {
     } catch (error) {
       logger.info(`BOT STOPPED`);
       logger.error(JSON.stringify(error));
+      twist.log(JSON.stringify(error));
       await startBot().then(resolve);
     }
   });

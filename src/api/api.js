@@ -7,6 +7,16 @@ export class API {
     this.host = apiHost;
     this.ua = Helper.randomUserAgent();
     this.query = query;
+    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+    process.on("warning", (warning) => {
+      if (
+        warning.name === "DeprecationWarning" &&
+        warning.message.includes("TLS")
+      ) {
+        return;
+      }
+      // console.warn(warning);
+    });
   }
 
   generateHeaders(token) {
@@ -14,9 +24,6 @@ export class API {
       Accept: "application/json, text/plain, */*",
       "Accept-Language": "en-US,en;q=0.9,id;q=0.8",
       "Content-Type": "application/json",
-      "Sec-Fetch-Site": "same-origin",
-      "Sec-Fetch-Mode": "cors",
-      "Sec-Fetch-Dest": "empty",
       Host: this.host,
       Origin: this.url,
       Referer: this.url + "/",
@@ -37,7 +44,7 @@ export class API {
         cache: "default",
         headers,
         method,
-        referrerPolicy: "strict-origin-when-cross-origin",
+        rejectUnauthorized: false,
       };
       logger.info(`${method} : ${url}`);
       logger.info(`Request Header : ${JSON.stringify(headers)}`);

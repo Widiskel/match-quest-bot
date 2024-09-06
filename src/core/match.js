@@ -19,6 +19,7 @@ export class Match extends API {
         username: this.account.username,
         tg_login_params: this.query,
       };
+
       await this.fetch("/api/tgapp/v1/user/login", "POST", undefined, body)
         .then(async (data) => {
           this.token = data.data.token;
